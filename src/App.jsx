@@ -9,7 +9,7 @@ import CityList from "./component/CityList";
 import CountriesList from "./component/CountriesList";
 import City from "./component/City";
 import Form from "./component/Form";
-import { useCities, CitiesPovider } from "./contexts/CitiesContext";
+import { CitiesPovider } from "./contexts/CitiesContext";
 
 function App() {
   return (
