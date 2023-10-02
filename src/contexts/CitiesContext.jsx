@@ -33,6 +33,7 @@ function CitiesPovider({ children }) {
         cities,
         isLoading,
         currCity,
+        getCity,
       }}
     >
       {children}
