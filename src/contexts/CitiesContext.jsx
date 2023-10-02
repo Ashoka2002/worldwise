@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const CitiesContext = createContext();
 
@@ -21,12 +21,17 @@ function CitiesPovider({ children }) {
     <CitiesContext.Provider
       value={{
         cities,
-        setCities,
         isLoading,
-        setIsLoading,
       }}
     >
       {children}
     </CitiesContext.Provider>
   );
 }
+
+function useCities() {
+  const context = useContext(CitiesContext);
+  return context;
+}
+
+export { CitiesPovider, useCities };
