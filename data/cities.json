@@ -47,6 +47,18 @@
         "lng": "75.79472054397404"
       },
       "id": 98443209
+    },
+    {
+      "cityName": "Greater London",
+      "date": "2023-10-03T14:30:07.122Z",
+      "emoji": "🇬🇧",
+      "notes": "",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "position": {
+        "lat": "51.48619338385446",
+        "lng": "-0.083770751953125"
+      },
+      "id": 98443210
     }
   ]
 }
