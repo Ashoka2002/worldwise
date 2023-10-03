@@ -27,6 +27,21 @@ function CitiesPovider({ children }) {
       .finally(() => setIsLoading(false));
   }
 
+  async function createCity(newCity) {
+    setIsLoading(true);
+    fetch(`${BASE_URL}/cities`, {
+      method: "POST",
+      body: JSON.stringify(newCity),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setCities((cities) => [...cities, data]))
+      .catch((err) => alert("Cannot Fetch!!!!"))
+      .finally(() => setIsLoading(false));
+  }
+
   return (
     <CitiesContext.Provider
       value={{
@@ -34,6 +49,7 @@ function CitiesPovider({ children }) {
         isLoading,
         currCity,
         getCity,
+        createCity,
       }}
     >
       {children}
