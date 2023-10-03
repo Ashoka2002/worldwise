@@ -22,7 +22,7 @@ function CityItem({ city }) {
     <li>
       <Link
         className={`${styles.cityItem} ${
-          city.id === currCity.id ? styles["cityItem--active"] : ""
+          id === currCity.id ? styles["cityItem--active"] : ""
         }`}
         to={`${city.id}/?lat=${position.lat}&lng=${position.lng}`}
       >

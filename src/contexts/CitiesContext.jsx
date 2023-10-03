@@ -44,7 +44,7 @@ function CitiesPovider({ children }) {
 
   async function deleteCity(id) {
     setIsLoading(true);
-    fetch(`${BASE_URL}/cities/id`, {
+    fetch(`${BASE_URL}/cities/${id}`, {
       method: "DELETE",
     })
       .then(() =>
