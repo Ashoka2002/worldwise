@@ -38,7 +38,19 @@ function CitiesPovider({ children }) {
     })
       .then((res) => res.json())
       .then((data) => setCities((cities) => [...cities, data]))
-      .catch((err) => alert("Cannot Fetch!!!!"))
+      .catch((err) => alert("Cannot create new city!!!!"))
+      .finally(() => setIsLoading(false));
+  }
+
+  async function deleteCity(id) {
+    setIsLoading(true);
+    fetch(`${BASE_URL}/cities/id`, {
+      method: "DELETE",
+    })
+      .then(() =>
+        setCities((cities) => cities.filter((city) => city.id !== id))
+      )
+      .catch((err) => alert("Cannot delete!!!!"))
       .finally(() => setIsLoading(false));
   }
 
@@ -50,6 +62,7 @@ function CitiesPovider({ children }) {
         currCity,
         getCity,
         createCity,
+        deleteCity,
       }}
     >
       {children}
