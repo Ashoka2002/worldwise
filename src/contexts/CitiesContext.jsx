@@ -1,9 +1,9 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
-  useState,
 } from "react";
 
 const BASE_URL = "http://localhost:8000";
@@ -75,19 +75,22 @@ function CitiesPovider({ children }) {
       );
   }, []);
 
-  async function getCity(id) {
-    if (currCity.id === +id) return;
-    dispatch({ type: "loading" });
-    fetch(`${BASE_URL}/cities/${id}`)
-      .then((res) => res.json())
-      .then((data) => dispatch({ type: "city/loaded", payload: data }))
-      .catch(() =>
-        dispatch({
-          type: "rejected",
-          payload: "There was an error loading city.",
-        })
-      );
-  }
+  const getCity = useCallback(
+    async function getCity(id) {
+      if (currCity.id === +id) return;
+      dispatch({ type: "loading" });
+      fetch(`${BASE_URL}/cities/${id}`)
+        .then((res) => res.json())
+        .then((data) => dispatch({ type: "city/loaded", payload: data }))
+        .catch(() =>
+          dispatch({
+            type: "rejected",
+            payload: "There was an error loading city.",
+          })
+        );
+    },
+    [currCity.id]
+  );
 
   async function createCity(newCity) {
     dispatch({ type: "loading" });
