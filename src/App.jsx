@@ -9,6 +9,7 @@ import CountriesList from "./component/CountriesList";
 import City from "./component/City";
 import Form from "./component/Form";
 import SpinnerFullPage from "./component/SpinnerFullPage";
+import { useMediaQuery } from "react-responsive";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const Product = lazy(() => import("./pages/Product"));
@@ -18,6 +19,16 @@ const Applayout = lazy(() => import("./pages/Applayout"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 function App() {
+  const isLaptopOrDesktop = useMediaQuery({
+    query: "(min-width: 1024px)",
+  });
+  const isTabletOrMobile = useMediaQuery({
+    query: "(max-width: 1024px)",
+  });
+
+  console.log("desc:", isLaptopOrDesktop);
+  console.log("Mobile:", isTabletOrMobile);
+
   return (
     <AuthProvider>
       <CitiesPovider>
