@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { CitiesPovider } from "./contexts/CitiesContext";
+import { LocalCitiesProvider } from "./contexts/LocalCitiesContext";
 import { AuthProvider } from "./contexts/FakeAuthContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { Suspense, lazy } from "react";
@@ -9,7 +9,6 @@ import CountriesList from "./component/CountriesList";
 import City from "./component/City";
 import Form from "./component/Form";
 import SpinnerFullPage from "./component/SpinnerFullPage";
-import { useMediaQuery } from "react-responsive";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const Product = lazy(() => import("./pages/Product"));
@@ -19,19 +18,9 @@ const Applayout = lazy(() => import("./pages/Applayout"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 function App() {
-  const isLaptopOrDesktop = useMediaQuery({
-    query: "(min-width: 1024px)",
-  });
-  const isTabletOrMobile = useMediaQuery({
-    query: "(max-width: 1024px)",
-  });
-
-  console.log("desc:", isLaptopOrDesktop);
-  console.log("Mobile:", isTabletOrMobile);
-
   return (
     <AuthProvider>
-      <CitiesPovider>
+      <LocalCitiesProvider>
         <BrowserRouter>
           <Suspense fallback={<SpinnerFullPage />}>
             <Routes>
@@ -58,7 +47,7 @@ function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
-      </CitiesPovider>
+      </LocalCitiesProvider>
     </AuthProvider>
   );
 }

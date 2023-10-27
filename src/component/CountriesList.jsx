@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./CountryList.module.css";
 import Message from "./Message.jsx";
 import CountryItem from "./CountryItem.jsx";
-import { useLocalCities } from "../../contexts/LocalCitiesContext.jsx";
+import { useLocalCities } from "../contexts/LocalCitiesContext.jsx";
 
 function CountryList() {
   const { cities } = useLocalCities();

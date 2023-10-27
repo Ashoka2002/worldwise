@@ -11,7 +11,7 @@ import { useUrlPosition } from "../hooks/useUrlPosition";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLocalCities } from "../contexts/LocalCitiesContext";
-import { Flag } from "./Flag.jsx";
+import Flag from "./Flag.jsx";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function convertToEmoji(countryCode) {

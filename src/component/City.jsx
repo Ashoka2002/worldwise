@@ -4,7 +4,7 @@ import styles from "./City.module.css";
 import Button from "./Button.jsx";
 import { useLocalCities } from "../contexts/LocalCitiesContext";
 import Flag from "./Flag.jsx";
-import { useUrlPosition } from "../../hooks/useUrlPosition.js";
+import { useUrlPosition } from "../hooks/useUrlPosition.js";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
