@@ -1,3 +1,4 @@
+import Sidebar from "../component/Sidebar";
 import Map from "../component/Map";
 import styles from "./AppLayout.module.css";
 import User from "../component/User";
@@ -5,6 +6,7 @@ import User from "../component/User";
 function Applayout() {
   return (
     <div className={styles.app}>
+      <Sidebar />
       <Map />
       <User />
     </div>

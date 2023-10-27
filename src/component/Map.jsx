@@ -1,72 +1,94 @@
+import React, { useEffect, useState } from "react";
 import styles from "./Map.module.css";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   MapContainer,
-  TileLayer,
   Marker,
   Popup,
+  TileLayer,
   useMap,
-  useMapEvent,
+  useMapEvents,
+  ZoomControl,
 } from "react-leaflet";
-import { useEffect, useState } from "react";
-import { useCities } from "../contexts/CitiesContext";
 import { useGeolocation } from "../hooks/useGeoloacation";
-import Button from "../component/Button";
-import { useUrlPosition } from "../hooks/useUrlPosition";
+import Button from "./Button.jsx";
+import { useUrlPosition } from "../hooks/useUrlPosition.js";
+import { useLocalCities } from "../contexts/LocalCitiesContext.jsx";
+import Sidebar from "./Sidebar.jsx";
+import Flag from "./Flag.jsx";
 
 function Map() {
-  const [mapPosition, setMapPosition] = useState([51.505, -0.09]);
-  const { cities } = useCities();
+  // const navigate = useNavigate();
+  const { cities } = useLocalCities();
+  const [mapPosition, setMapPosition] = useState([0, 0]);
+  const { position: geolocationPosition, getPosition } = useGeolocation();
+
   const [mapLat, mapLng] = useUrlPosition();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const {
-    isLoading: isLoadingPosition,
-    position: geoLoacationPosition,
-    getPosition,
-  } = useGeolocation();
+  useEffect(
+    function () {
+      if (mapLat && mapLng) {
+        setMapPosition([mapLat, mapLng]);
+      }
+    },
+    [mapLat, mapLng]
+  );
 
-  useEffect(() => {
-    if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
-  }, [mapLat, mapLng]);
-
-  useEffect(() => {
-    if (geoLoacationPosition)
-      setMapPosition([geoLoacationPosition.lat, geoLoacationPosition.lng]);
-  }, [geoLoacationPosition]);
+  useEffect(
+    function () {
+      if (geolocationPosition) {
+        setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
+      }
+    },
+    [geolocationPosition]
+  );
 
   return (
-    <div className={styles.mapContainer}>
-      {!geoLoacationPosition && (
+    <>
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
+      <div className={styles.mapContainer}>
         <Button type="position" onClick={getPosition}>
-          {isLoadingPosition ? "Loading..." : "Get Loaction"}
+          Use your position
         </Button>
-      )}
-      <MapContainer
-        center={mapPosition}
-        // center={[mapLat, mapLng]}
-        zoom={13}
-        scrollWheelZoom={true}
-        className={styles.map}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {cities.map((city) => (
-          <Marker
-            key={city.id}
-            position={[city.position.lat, city.position.lng]}
-          >
-            <Popup>
-              <span>{city.emoji}</span>
-              <span>{city.cityName}</span>
-            </Popup>
-          </Marker>
-        ))}
-        <ChangeCenter position={mapPosition} />
-        <DetectClick />
-      </MapContainer>
-    </div>
+        <MapContainer
+          center={[mapLat, mapLng]}
+          zoom={6}
+          zoomControl={false}
+          scrollWheelZoom={true}
+          className={styles.map}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+          />
+          <ZoomControl position="topright" />
+          {cities.map((city) => (
+            <Marker
+              position={[city.position.lat, city.position.lng]}
+              key={city.id}
+            >
+              <Popup>
+                <span style={{ maxHeight: "2.8rem", height: "2.8rem" }}>
+                  <Flag countryCode={city.countryCode} />
+                </span>
+                <span>{city.cityName}</span>
+              </Popup>
+            </Marker>
+          ))}
+          <ChangeCenter position={mapPosition} />
+          <DetectClick />
+          <ToggleSideBar
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+          />
+        </MapContainer>
+        ))
+      </div>
+    </>
   );
 }
 
@@ -78,11 +100,22 @@ function ChangeCenter({ position }) {
 
 function DetectClick() {
   const navigate = useNavigate();
-  useMapEvent({
+
+  useMapEvents({
     click: (e) => {
-      navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+      navigate(`form?mode=input&lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
     },
   });
+}
+
+function ToggleSideBar({ isSidebarOpen, setIsSidebarOpen }) {
+  const handleClick = () => setIsSidebarOpen(true);
+
+  useMapEvents({
+    click: handleClick,
+  });
+
+  return null;
 }
 
 export default Map;
