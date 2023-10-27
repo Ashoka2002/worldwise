@@ -1,6 +1,6 @@
 .user {
   position: absolute;
-  top: 4.2rem;
+  top: 3.5rem;
   right: 4.2rem;
   background-color: var(--color-dark--1);
   padding: 1rem 1.4rem;
@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   gap: 1.6rem;
+  transition: all 0.3s ease-in;
 }
 
 .user img {
@@ -31,4 +32,11 @@
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+@media (max-width: 24rem) {
+  .user {
+    top: 1rem;
+    right: 1rem;
+  }
 }

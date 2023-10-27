@@ -5,7 +5,7 @@
   position: relative;
 }
 
-.mapContainer button{
+.mapContainer button {
   bottom: unset;
   left: unset;
 
@@ -14,7 +14,7 @@
 }
 
 @media (max-width: 48em) {
-  .mapContainer button{
+  .mapContainer button {
     transform: translateX(50%);
     right: 50%;
   }

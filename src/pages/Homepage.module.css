@@ -39,6 +39,7 @@
   .homepage {
     margin: 0;
     height: 100vh;
+    overflow: hidden;
   }
 
   .homepage section {
