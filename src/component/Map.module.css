@@ -5,6 +5,21 @@
   position: relative;
 }
 
+.mapContainer button{
+  bottom: unset;
+  left: unset;
+
+  top: 10rem;
+  right: 5rem;
+}
+
+@media (max-width: 48em) {
+  .mapContainer button{
+    transform: translateX(50%);
+    right: 50%;
+  }
+}
+
 .map {
   height: 100%;
 }
