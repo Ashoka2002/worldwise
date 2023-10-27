@@ -19,8 +19,14 @@ import Flag from "./Flag.jsx";
 
 function Map() {
   const { cities } = useLocalCities();
-  const [mapPosition, setMapPosition] = useState([0, 0]);
+  const [mapPosition, setMapPosition] = useState(() => {
+    const { lat, lng } = cities?.at(-1).position;
+    console.log(lat, +lng);
+    if (!lat || !lng) return [0, 0];
+    return [+lat, +lng];
+  });
   const [mapLat, mapLng] = useUrlPosition();
+  const [isSatellite, setIsSatellite] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const {
     isLoading: isLoadingPosition,
@@ -37,6 +43,10 @@ function Map() {
       setMapPosition([geoLoacationPosition.lat, geoLoacationPosition.lng]);
   }, [geoLoacationPosition]);
 
+  function handleToggleSatellite() {
+    setIsSatellite((cur) => !cur);
+  }
+
   return (
     <>
       <Sidebar
@@ -50,17 +60,29 @@ function Map() {
           </Button>
         )}
 
+        <Button type="toggleSatellite" onClick={handleToggleSatellite}>
+          Satellite Mode: {isSatellite ? "ON" : "OFF"}
+        </Button>
+
         <MapContainer
           center={[mapLat, mapLng]}
-          // center={[mapLat, mapLng]}
+          // center={mapPosition}
           zoom={6}
           scrollWheelZoom={true}
           className={styles.map}
         >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+          {isSatellite ? (
+            <TileLayer
+              attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              // tileSize={512}
+            />
+          ) : (
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+          )}
           {cities.map((city) => (
             <Marker
               key={city.id}

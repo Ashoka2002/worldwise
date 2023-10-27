@@ -1,8 +1,11 @@
 .app {
   height: 100dvh;
-  padding: 2.4rem;
+  padding: 1rem;
+  background-color: black;
+  background: linear-gradient(to right, #fced21b9, #009244a6);
   overscroll-behavior-y: none;
   position: relative;
+  animation: border 1s ease-in-out infinite;
 }
 
 @media (max-width: 64em) {
