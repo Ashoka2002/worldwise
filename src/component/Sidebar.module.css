@@ -1,6 +1,5 @@
 .sidebar {
   width: 56rem;
-  background-color: var(--color-dark--1);
   padding: 3rem 5rem 3.5rem 5rem;
 
   display: flex;
@@ -13,11 +12,16 @@
   top: 2.4rem;
   left: 2.4rem;
   transform: translateX(-100%);
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
+
+  background: rgba(26, 30, 32, 0.6);
+  backdrop-filter: blur(10px);
+  border-right: 2px solid rgba(34, 33, 33, 0.5);
+  border-top: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-open .sidebar {
@@ -43,9 +47,9 @@
   color: var(--color-light--2);
 }
 
-
 @media (max-width: 64em) {
   .sidebar {
+    width: 46rem;
     top: 0;
     left: 0;
     height: 100%;
