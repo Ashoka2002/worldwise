@@ -20,8 +20,7 @@ import Flag from "./Flag.jsx";
 function Map() {
   const { cities } = useLocalCities();
   const [mapPosition, setMapPosition] = useState(() => {
-    const { lat, lng } = cities?.at(-1).position;
-    console.log(lat, +lng);
+    const { lat, lng } = cities?.at(-1)?.position || { lat: 0, lng: 0 };
     if (!lat || !lng) return [0, 0];
     return [+lat, +lng];
   });
